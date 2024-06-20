@@ -1,5 +1,8 @@
 # vscode related
 .vscode
 
+# assets
+assets/
+
 # other
 .DS_STORE
