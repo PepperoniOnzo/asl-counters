@@ -8,10 +8,9 @@ import (
 	"github.com/PepperoniOnzo/asl-counters/internal/models"
 )
 
-const assets = "/assets"
+const assets = "../assets"
 
 func GetContentFromFolder(path string) (*models.ContentResponse, error) {
-
 	entries, err := os.ReadDir(assets + path)
 	if err != nil {
 		return nil, err

@@ -9,22 +9,27 @@ import (
 )
 
 func GetGeneratedPdf(w http.ResponseWriter, r *http.Request) {
-	var request *models.GenerateRequest
+	switch r.Method {
+	case http.MethodPost:
+		var request *models.GenerateRequest
 
-	err := json.NewDecoder(r.Body).Decode(&request)
-	if err != nil {
-		http.Error(w, "Bad request", http.StatusBadRequest)
-		return
+		err := json.NewDecoder(r.Body).Decode(&request)
+		if err != nil {
+			http.Error(w, "Bad request", http.StatusBadRequest)
+			return
+		}
+
+		res, err := services.GeneratePdf(request)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		w.Header().Set("Content-Type", http.DetectContentType(res))
+		w.WriteHeader(http.StatusOK)
+		w.Write(res)
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
-
-	res, err := services.GeneratePdf(request)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
 }
