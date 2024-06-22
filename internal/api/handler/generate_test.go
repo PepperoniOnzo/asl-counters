@@ -32,7 +32,7 @@ func TestGetGeneratedPdf(t *testing.T) {
             "front_path_id": "/asl/hu/huMMG.gif",
             "background_path_id": "/asl/hu/huMMGb.gif",
             "size": 13,
-            "amount": 20
+            "amount": 50
         }
     ],
     "spacing": 0.5

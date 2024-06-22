@@ -106,19 +106,23 @@ func generateCountersPage(size float64, spacing float64, counters []*models.Coun
 			for column := currentColumn; column < maxWidthTokens/2; column++ {
 				pdf.ImageOptions(assets+counter.FrontPathId, float64(size*float64(column)+spacing*float64(column)), float64(size*float64(row)+spacing*float64(row)), size, size, false, fpdf.ImageOptions{}, 0, "")
 				pdf.ImageOptions(assets+counter.BackgroundPathId, float64(pdfconstants.A4Width-size*float64(column+1)-spacing*float64(column)), float64(size*float64(row)+spacing*float64(row)), size, size, false, fpdf.ImageOptions{}, 0, "")
-
 				counterAmount--
 
 				if counterAmount == 0 {
-					currentColumn = column
+					currentColumn = column + 1
 					break
 				} else {
 					currentColumn = 0
 				}
 			}
 
+			if counterAmount == 0 {
+				currentRow = row
+				break
+			}
+
 			if row == maxHeightTokens-1 {
-				if counterIndex == len(counters)-1 {
+				if counterIndex == len(counters)-1 && counterAmount == 0 {
 					break
 				}
 
@@ -128,10 +132,6 @@ func generateCountersPage(size float64, spacing float64, counters []*models.Coun
 				row = -1
 			}
 
-			if counterAmount == 0 {
-				currentRow = row
-				break
-			}
 		}
 	}
 
