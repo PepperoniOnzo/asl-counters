@@ -1,5 +1,12 @@
 # vscode related
 .vscode
 
+# assets
+assets/
+
+# debug files
+cmd/
+!main.go
+
 # other
 .DS_STORE
